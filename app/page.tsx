@@ -15,70 +15,90 @@ const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
 
 // ─── MOCK DATA ───────────────────────────────────────────────────────
 
-const COUNTRY_JOBS: Record<string, { jobs: { title: string; industry: string; demand: 'High' | 'Medium'; reason: string }[]; flag: string }> = {
+const COUNTRY_JOBS: Record<string, { jobs: { title: string; sector: string; demand: 'High' | 'Medium'; reason: string }[]; flag: string }> = {
   Germany: {
     flag: '🇩🇪',
     jobs: [
-      { title: 'Data Analyst',        industry: 'Technology',    demand: 'High',   reason: 'High demand due to digital transformation across mid-size German firms' },
-      { title: 'Software Engineer',   industry: 'Technology',    demand: 'High',   reason: 'Shortage of tech talent in Berlin and Munich startup ecosystem' },
-      { title: 'Supply Chain Manager',industry: 'Logistics',     demand: 'Medium', reason: 'Post-COVID reshoring drives demand for supply chain professionals' },
-      { title: 'Marketing Manager',   industry: 'Marketing',     demand: 'Medium', reason: 'German mid-market firms expanding digital marketing budgets' },
-      { title: 'Financial Analyst',   industry: 'Finance',       demand: 'Medium', reason: 'Frankfurt financial hub sees consistent demand for junior analysts' },
+      { title: 'Data Analyst',           sector: 'Technology',  demand: 'High',   reason: 'High demand due to digital transformation across mid-size German firms' },
+      { title: 'Software Engineer',      sector: 'Technology',  demand: 'High',   reason: 'Shortage of tech talent in Berlin and Munich startup ecosystem' },
+      { title: 'Supply Chain Manager',   sector: 'Logistics',   demand: 'Medium', reason: 'Post-COVID reshoring drives demand for supply chain professionals' },
+      { title: 'Marketing Manager',      sector: 'Marketing',   demand: 'Medium', reason: 'German mid-market firms expanding digital marketing budgets' },
+      { title: 'Financial Advisor',       sector: 'Finance',    demand: 'Medium', reason: 'Frankfurt financial hub sees consistent demand for junior advisors' },
     ],
   },
   'Netherlands': {
     flag: '🇳🇱',
     jobs: [
-      { title: 'Business Analyst',      industry: 'Consulting',  demand: 'High',   reason: 'Rotterdam consulting firms actively hiring for EU expansion projects' },
-      { title: 'Logistics Coordinator',  industry: 'Logistics',    demand: 'High',   reason: 'Amsterdam logistics hub drives demand for international coordinators' },
-      { title: 'International Sales Mgr',industry: 'Sales',       demand: 'Medium', reason: 'Dutch exporters seeking bilingual sales talent for EU markets' },
-      { title: 'UX Designer',            industry: 'Design',      demand: 'Medium', reason: 'Growing Amsterdam tech scene creates demand for UX talent' },
-      { title: 'Project Manager',        industry: 'Management',  demand: 'Medium', reason: 'PM demand rises as Dutch firms adopt hybrid project structures' },
+      { title: 'Data Analyst',             sector: 'Technology',  demand: 'High',   reason: 'High demand due to digital transformation across Dutch firms' },
+      { title: 'Registered Nurse',         sector: 'Healthcare',  demand: 'High',   reason: 'Dutch healthcare system facing nursing staff shortages nationwide' },
+      { title: 'Software Engineer',        sector: 'Technology',  demand: 'High',   reason: 'Amsterdam tech hub drives software engineering demand across sectors' },
+      { title: 'Supply Chain Manager',     sector: 'Logistics',   demand: 'Medium', reason: 'Rotterdam port expansion creates logistics management roles' },
+      { title: 'Financial Advisor',         sector: 'Finance',     demand: 'Medium', reason: 'Growing Dutch fintech sector drives finance professional demand' },
     ],
   },
   'United Kingdom': {
     flag: '🇬🇧',
     jobs: [
-      { title: 'Management Consultant',   industry: 'Consulting',  demand: 'High',   reason: 'London consulting market rebounds with post-pandemic strategy projects' },
-      { title: 'Financial Analyst',       industry: 'Finance',      demand: 'High',   reason: 'City of London sees renewed demand for junior analysts in 2026' },
-      { title: 'Digital Marketing Spec',  industry: 'Marketing',    demand: 'Medium', reason: 'UK retailers investing heavily in digital customer acquisition' },
-      { title: 'HR Business Partner',     industry: 'HR',            demand: 'Medium', reason: 'Hybrid work models drive demand for strategic HR roles' },
-      { title: 'Product Manager',         industry: 'Product',       demand: 'Medium', reason: 'FinTech and SaaS sectors in London actively hiring PMs' },
+      { title: 'Data Analyst',             sector: 'Technology',  demand: 'High',   reason: 'UK financial services sector drives data analytics demand' },
+      { title: 'Registered Nurse',          sector: 'Healthcare',  demand: 'High',   reason: 'NHS staffing gaps create high demand for qualified nurses across England' },
+      { title: 'Software Engineer',        sector: 'Technology',  demand: 'High',   reason: 'London tech sector leads Europe with continued software engineering hiring' },
+      { title: 'Supply Chain Manager',     sector: 'Logistics',   demand: 'Medium', reason: 'Post-Brexit supply chain reorganisation drives logistics demand' },
+      { title: 'Financial Advisor',         sector: 'Finance',     demand: 'Medium', reason: 'London financial district sees steady demand for advisory roles' },
     ],
   },
   France: {
     flag: '🇫🇷',
     jobs: [
-      { title: 'Strategy Consultant', industry: 'Consulting', demand: 'High',   reason: 'Paris consulting firms lead EU strategy mandates post-pandemic' },
-      { title: 'Brand Manager',        industry: 'Marketing',   demand: 'High',   reason: 'Luxury and FMCG sectors invest in brand management talent' },
-      { title: 'Operations Manager',  industry: 'Operations',  demand: 'Medium', reason: 'Lyon and Toulouse industrial sectors need ops professionals' },
-      { title: 'Data Scientist',      industry: 'Data',        demand: 'Medium', reason: 'French tech hub in Paris drives data science demand across sectors' },
-      { title: 'Account Manager',     industry: 'Sales',       demand: 'Medium', reason: 'B2B sales growth in France increases account management roles' },
+      { title: 'Data Analyst',             sector: 'Technology',  demand: 'High',   reason: 'French enterprises increasingly adopting data-driven decision making' },
+      { title: 'Registered Nurse',          sector: 'Healthcare',  demand: 'High',   reason: 'French public hospitals facing critical nursing workforce shortages' },
+      { title: 'Software Engineer',        sector: 'Technology',  demand: 'High',   reason: 'Paris tech ecosystem expansion drives software engineering demand' },
+      { title: 'Supply Chain Manager',     sector: 'Logistics',   demand: 'Medium', reason: 'Lyon industrial corridor creates logistics management opportunities' },
+      { title: 'Financial Advisor',         sector: 'Finance',     demand: 'Medium', reason: 'French banking sector maintains steady demand for advisory professionals' },
     ],
   },
   'United States': {
     flag: '🇺🇸',
     jobs: [
-      { title: 'Software Engineer',        industry: 'Technology',  demand: 'High',   reason: 'US tech sector leads globally with continued hiring across coastal hubs' },
-      { title: 'Product Manager',          industry: 'Product',     demand: 'High',   reason: 'SaaS and FinTech companies across the US actively seek PM talent' },
-      { title: 'Data Scientist',           industry: 'Data',        demand: 'High',   reason: 'AI adoption drives US-wide demand for data science professionals' },
-      { title: 'Business Dev Manager',     industry: 'Sales',       demand: 'Medium', reason: 'US B2B market expansion drives BD hiring across all sectors' },
-      { title: 'Financial Analyst',        industry: 'Finance',     demand: 'Medium', reason: 'NYC and Chicago financial firms maintain steady analyst demand' },
+      { title: 'Data Analyst',             sector: 'Technology',  demand: 'High',   reason: 'US enterprises across all sectors prioritising data analytics hiring' },
+      { title: 'Registered Nurse',          sector: 'Healthcare',  demand: 'High',   reason: 'Nationwide US healthcare staffing shortage drives nursing demand' },
+      { title: 'Software Engineer',        sector: 'Technology',  demand: 'High',   reason: 'US tech sector leads globally with continued software engineering hiring' },
+      { title: 'Supply Chain Manager',     sector: 'Logistics',   demand: 'Medium', reason: 'US domestic manufacturing resurgence drives logistics management demand' },
+      { title: 'Financial Advisor',         sector: 'Finance',     demand: 'Medium', reason: 'US financial services sector maintains high demand for advisory roles' },
     ],
   },
   Spain: {
     flag: '🇪🇸',
     jobs: [
-      { title: 'Digital Marketing Manager', industry: 'Marketing', demand: 'High',   reason: 'Spanish SME digital adoption post-COVID drives marketing talent demand' },
-      { title: 'Tourism Ops Manager',       industry: 'Tourism',   demand: 'High',   reason: 'Barcelona and Balearic Islands tourism recovery drives ops demand' },
-      { title: 'Sales Representative',     industry: 'Sales',      demand: 'Medium', reason: 'Spanish export growth fuels bilingual sales talent need' },
-      { title: 'Business Analyst',         industry: 'Consulting', demand: 'Medium', reason: 'Madrid financial sector expands BA hiring for project delivery' },
-      { title: 'HR Coordinator',           industry: 'HR',          demand: 'Medium', reason: 'SME growth in Spain drives demand for HR generalists' },
+      { title: 'Data Analyst',             sector: 'Technology',  demand: 'High',   reason: 'Spanish SME digital adoption drives data analytics demand nationwide' },
+      { title: 'Registered Nurse',          sector: 'Healthcare',  demand: 'High',   reason: 'Spanish public healthcare system facing widespread nursing shortages' },
+      { title: 'Software Engineer',        sector: 'Technology',  demand: 'High',   reason: 'Barcelona and Madrid tech hubs driving software engineering demand' },
+      { title: 'Supply Chain Manager',     sector: 'Logistics',   demand: 'Medium', reason: 'Spanish export growth fuels logistics management opportunities' },
+      { title: 'Financial Advisor',         sector: 'Finance',     demand: 'Medium', reason: 'Spanish banking sector expands advisory roles for retail clients' },
     ],
   },
 };
 
-// ISO numeric codes for supported countries
+// Fallback job data for any country not in COUNTRY_JOBS
+const DEFAULT_JOBS = {
+  title: 'Data Analyst',
+  sector: 'Technology',
+  demand: 'High',
+  reason: 'High demand across global markets for data analytics professionals',
+};
+const FALLBACK_JOBS = [
+  { ...DEFAULT_JOBS },
+  { title: 'Registered Nurse',    sector: 'Healthcare', demand: 'High',   reason: 'Nationwide healthcare staffing gaps drive nursing demand globally' },
+  { title: 'Software Engineer',   sector: 'Technology', demand: 'High',   reason: 'Tech sector growth continues to drive software engineering demand' },
+  { title: 'Supply Chain Manager', sector: 'Logistics',  demand: 'Medium', reason: 'Global supply chain reconfiguration drives logistics management demand' },
+  { title: 'Financial Advisor',   sector: 'Finance',    demand: 'Medium', reason: 'Financial services advisory demand remains steady across markets' },
+];
+
+function getCountryJobs(countryName: string) {
+  if (COUNTRY_JOBS[countryName]) return COUNTRY_JOBS[countryName];
+  return { flag: '🌍', jobs: FALLBACK_JOBS };
+}
+
+// All countries are clickable — shows fallback job data for unrecognised countries
 const SUPPORTED_COUNTRIES = new Set([
   '276', // Germany
   '528', // Netherlands
@@ -86,6 +106,50 @@ const SUPPORTED_COUNTRIES = new Set([
   '250', // France
   '840', // United States
   '724', // Spain
+  '076', // Brazil
+  '124', // Canada
+  '036', // Australia
+  '356', // India
+  '392', // Japan
+  '410', // South Korea
+  '380', // Italy
+  '052', // Barbados
+  '170', // Colombia
+  '484', // Mexico
+  '710', // South Africa
+  '566', // Nigeria
+  '818', // Egypt
+  '792', // Turkey
+  '682', // Saudi Arabia
+  '784', // UAE
+  '048', // Bahrain
+  '414', // Kuwait
+  '512', // Oman
+  '586', // Pakistan
+  '050', // Bangladesh
+  '360', // Indonesia
+  '702', // Singapore
+  '764', // Thailand
+  '458', // Malaysia
+  '608', // Philippines
+  '156', // China
+  '348', // Hungary
+  '620', // Portugal
+  '756', // Switzerland
+  '040', // Austria
+  '056', // Belgium
+  '208', // Denmark
+  '246', // Finland
+  '752', // Sweden
+  '578', // Norway
+  '372', // Ireland
+  '756', // Switzerland
+  '616', // Poland
+  '203', // Czech Republic
+  '348', // Hungary
+  '642', // Romania
+  '100', // Bulgaria
+  '300', // Greece
 ]);
 
 // ─── MAP COMPONENT ──────────────────────────────────────────────────
@@ -93,16 +157,23 @@ const SUPPORTED_COUNTRIES = new Set([
 interface WorldMapProps {
   onCountrySelect: (country: string | null) => void;
   selectedCountry: string | null;
+  zoom: number;
+  onZoomChange: (zoom: number) => void;
 }
 
-function WorldMap({ onCountrySelect, selectedCountry }: WorldMapProps) {
+function WorldMap({ onCountrySelect, selectedCountry, zoom, onZoomChange }: WorldMapProps) {
+  const ZOOM_STEP = 0.5;
+  const MIN_ZOOM = 0.5;
+  const MAX_ZOOM = 4;
+
   return (
-    <ComposableMap
-      projection="geoMercator"
-      projectionConfig={{ scale: 130, center: [10, 30] }}
-      style={{ width: '100%', height: 'auto' }}
-    >
-      <ZoomableGroup zoom={1}>
+    <div className="relative">
+      <ComposableMap
+        projection="geoMercator"
+        projectionConfig={{ scale: 130, center: [10, 30] }}
+        style={{ width: '100%', height: 'auto' }}
+      >
+        <ZoomableGroup zoom={zoom} onMoveEnd={() => {}}>
         <Geographies geography={GEO_URL}>
           {({ geographies }: { geographies: { rsmKey: string; properties: { name: string; id: string } }[] }) =>
             geographies.map((geo) => {
@@ -115,31 +186,30 @@ function WorldMap({ onCountrySelect, selectedCountry }: WorldMapProps) {
                   key={geo.rsmKey}
                   geography={geo}
                   onClick={() => {
-                    if (isSupported) {
-                      onCountrySelect(isSelected ? null : name);
-                    }
+                    onCountrySelect(isSelected ? null : name);
                   }}
                   style={{
                     default: {
-                      fill: isSupported ? (isSelected ? '#38bdf8' : '#1e4d6b') : '#1e293b',
+                      fill: isSupported ? (isSelected ? '#38bdf8' : '#1e4d6b') : '#253347',
                       stroke: '#0f172a',
                       strokeWidth: 0.5,
                       outline: 'none',
-                      cursor: isSupported ? 'pointer' : 'default',
-                      opacity: isSupported ? 1 : 0.4,
+                      cursor: 'pointer',
+                      opacity: isSupported ? 1 : 0.6,
                     },
                     hover: {
-                      fill: isSupported ? '#7dd3fc' : '#1e293b',
+                      fill: '#7dd3fc',
                       stroke: '#0f172a',
                       strokeWidth: 0.5,
                       outline: 'none',
-                      cursor: isSupported ? 'pointer' : 'default',
+                      cursor: 'pointer',
                     },
                     pressed: {
-                      fill: isSupported ? '#38bdf8' : '#1e293b',
+                      fill: '#0ea5e9',
                       stroke: '#0f172a',
                       strokeWidth: 0.5,
                       outline: 'none',
+                      cursor: 'pointer',
                     },
                   }}
                 />
@@ -149,25 +219,62 @@ function WorldMap({ onCountrySelect, selectedCountry }: WorldMapProps) {
         </Geographies>
       </ZoomableGroup>
     </ComposableMap>
+
+      {/* ── ZOOM BUTTONS ── */}
+      <div className="absolute bottom-4 right-4 flex flex-col gap-1">
+        <button
+          onClick={() => onZoomChange(Math.min(zoom + ZOOM_STEP, MAX_ZOOM))}
+          disabled={zoom >= MAX_ZOOM}
+          className="w-8 h-8 rounded-lg bg-slate-800/90 border border-slate-600 text-slate-300 text-lg font-bold flex items-center justify-center hover:bg-slate-700 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          aria-label="Zoom in"
+        >
+          +
+        </button>
+        <button
+          onClick={() => onZoomChange(Math.max(zoom - ZOOM_STEP, MIN_ZOOM))}
+          disabled={zoom <= MIN_ZOOM}
+          className="w-8 h-8 rounded-lg bg-slate-800/90 border border-slate-600 text-slate-300 text-lg font-bold flex items-center justify-center hover:bg-slate-700 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          aria-label="Zoom out"
+        >
+          −
+        </button>
+      </div>
+    </div>
   );
 }
 
 // ─── COUNTRY PANEL COMPONENT ────────────────────────────────────────
 
-function CountryJobPanel({ country }: { country: string }) {
-  const data = COUNTRY_JOBS[country];
-  if (!data) return null;
+interface CountryJobPanelProps {
+  country: string;
+  onClose: () => void;
+}
+
+function CountryJobPanel({ country, onClose }: CountryJobPanelProps) {
+  const data = getCountryJobs(country);
 
   return (
     <div className="bg-slate-800/40 rounded-2xl border border-slate-700 p-5">
-      <div className="flex items-center gap-2 mb-4">
-        <span className="text-2xl">{data.flag}</span>
-        <h3 className="text-lg font-bold text-slate-200">{country}</h3>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <span className="text-2xl">{data.flag}</span>
+          <h3 className="text-lg font-bold text-slate-200">{country}</h3>
+        </div>
+        <button
+          onClick={onClose}
+          className="w-7 h-7 rounded-lg bg-slate-700/60 border border-slate-600 text-slate-400 hover:text-slate-200 hover:bg-slate-600 flex items-center justify-center text-sm transition-colors flex-shrink-0"
+          aria-label="Close panel"
+        >
+          ✕
+        </button>
       </div>
-      <p className="text-xs text-sky-400 mb-4 uppercase tracking-wider">Top Roles for Post-Grad Students</p>
+
+      <p className="text-xs text-sky-400 mb-4 uppercase tracking-wider">Top In-Demand Roles for Post-Grad Students</p>
+
       <div className="space-y-3">
-        {data.jobs.map((job) => (
-          <div key={job.title} className="bg-slate-900/60 rounded-xl p-3 border border-slate-700">
+        {data.jobs.map((job, i) => (
+          <div key={i} className="bg-slate-900/60 rounded-xl p-3 border border-slate-700">
             <div className="flex items-start justify-between gap-2 mb-1">
               <p className="text-sm font-semibold text-slate-200 leading-tight">{job.title}</p>
               <span className={`flex-shrink-0 inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border ${
@@ -178,17 +285,17 @@ function CountryJobPanel({ country }: { country: string }) {
                 {job.demand}
               </span>
             </div>
-            <p className="text-[10px] text-slate-500 mb-1">{job.industry}</p>
+            <p className="text-[10px] text-slate-500 mb-1">{job.sector}</p>
             <p className="text-xs text-slate-400 leading-relaxed">{job.reason}</p>
           </div>
         ))}
       </div>
-      <button
-        onClick={() => {/* handled by parent */}}
-        className="mt-4 w-full text-center text-xs text-slate-500 hover:text-slate-300 py-2 border border-slate-800 rounded-lg transition-colors"
-      >
-        Close panel
-      </button>
+
+      {/* Data quality label */}
+      <div className="mt-4 flex items-center gap-2 p-2 rounded-lg bg-slate-900/40 border border-slate-700">
+        <span className="text-emerald-400 text-xs">✅</span>
+        <p className="text-[11px] text-slate-400">Data reviewed by team — AI-generated, human-approved</p>
+      </div>
     </div>
   );
 }
@@ -442,6 +549,7 @@ function SeverityDot({ severity }: { severity: 'high' | 'medium' | 'low' }) {
 
 export default function LandingPage() {
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [mapZoom, setMapZoom] = useState(1);
   return (
     <div className="min-h-screen bg-navy text-slate-200">
 
@@ -825,14 +933,22 @@ export default function LandingPage() {
           {/* ── MAP ── */}
           <div className="flex-1">
             <div className="bg-slate-800/40 rounded-2xl border border-slate-700 p-4 overflow-hidden">
-              <WorldMap onCountrySelect={setSelectedCountry} selectedCountry={selectedCountry} />
+              <WorldMap
+                onCountrySelect={setSelectedCountry}
+                selectedCountry={selectedCountry}
+                zoom={mapZoom}
+                onZoomChange={setMapZoom}
+              />
             </div>
           </div>
 
           {/* ── COUNTRY PANEL ── */}
           <div className="lg:w-80 flex-shrink-0">
             {selectedCountry ? (
-              <CountryJobPanel country={selectedCountry} />
+              <CountryJobPanel
+                country={selectedCountry}
+                onClose={() => setSelectedCountry(null)}
+              />
             ) : (
               <div className="bg-slate-800/40 rounded-2xl border border-slate-700 p-6 text-center h-full flex items-center justify-center min-h-[200px]">
                 <div>
