@@ -2,7 +2,7 @@
 // Landing page for AI Native Enterprise course project
 
 const BADGES = [
-  { label: 'AI Native Enterprise · Day 1 Prototype', color: 'sky' },
+  { label: 'AI Native Enterprise · Day 2 · Workflow & HITL', color: 'sky' },
   { label: 'International Management Track', color: 'indigo' },
 ];
 
@@ -87,6 +87,118 @@ const TEAM = [
   { role: 'C — Prototype & Tools', name: 'Sofya' },
 ];
 
+// ─── DAY 2: WORKFLOW & HITL ────────────────────────────────────────
+
+const WORKFLOW_STEPS = [
+  { step: '1', label: 'Student Input',    detail: 'Degree, target countries, graduation year', badge: 'input',  icon: '📋' },
+  { step: '2', label: 'AI Research',      detail: 'Collects job postings from global sources', badge: 'ai',     icon: '🔍' },
+  { step: '3', label: 'AI Classify & Rank', detail: 'Classifies by country, ranks by demand', badge: 'ai',     icon: '📊' },
+  { step: '4', label: 'Human Review',    detail: 'HITL reviewer checks source quality',       badge: 'review', icon: '👤' },
+  { step: '5', label: 'Dashboard Output', detail: 'Ranked roles per country delivered',        badge: 'output', icon: '🎯' },
+  { step: '6', label: 'Student Action',  detail: 'Student prioritises applications',          badge: 'action', icon: '✅' },
+];
+
+const WORKFLOW_BADGES: Record<string, { bg: string; text: string; label: string }> = {
+  input:  { bg: 'bg-sky-500/15',    text: 'text-sky-300',   label: 'INPUT'       },
+  ai:     { bg: 'bg-indigo-500/15', text: 'text-indigo-300',label: 'AI ACTIVE'   },
+  review: { bg: 'bg-amber-500/15',  text: 'text-amber-300', label: 'HUMAN REVIEW'},
+  output: { bg: 'bg-emerald-500/15',text: 'text-emerald-300',label:'OUTPUT'      },
+  action: { bg: 'bg-sky-500/15',    text: 'text-sky-300',   label: 'ACTION'      },
+};
+
+const DATA_NEEDED = [
+  { icon: '🎓', item: 'Student Profile',    detail: 'Degree, field, target countries, graduation year' },
+  { icon: '🌐', item: 'Job Posting Data',  detail: 'APIs or web aggregation (LinkedIn, Indeed, Glassdoor)' },
+  { icon: '🏷️', item: 'Role Taxonomy',     detail: 'Job titles, industries, seniority levels' },
+  { icon: '📈', item: 'Demand Frequency',   detail: 'Country-level posting volume and trend signals' },
+];
+
+const AI_ACTIONS = [
+  { icon: '🔎', action: 'Query & Aggregate', detail: 'Searches global sources, collects postings at scale' },
+  { icon: '🏷️', action: 'Classify',         detail: 'Labels roles by type, country, and relevance to student' },
+  { icon: '📊', action: 'Rank',             detail: 'Sorts roles by demand frequency and recency' },
+  { icon: '📝', action: 'Summarise',        detail: 'Produces digestible ranked output for student dashboard' },
+];
+
+const HITL_CHECKPOINTS = [
+  { icon: '✅', text: 'Data sources validated for reliability and freshness before delivery' },
+  { icon: '✅', text: 'Output quality reviewed — classification errors corrected' },
+  { icon: '✅', text: 'Human reviewer approves final ranked list before student sees it' },
+];
+
+const MONITORING = [
+  { icon: '🔔', alert: 'Source Drift',    detail: 'Triggers when data source quality or access changes' },
+  { icon: '📉', alert: 'Staleness',      detail: 'Triggers when demand data exceeds update threshold' },
+  { icon: '🏷️', alert: 'Class. Drift',   detail: 'Triggers when role taxonomy accuracy degrades' },
+];
+
+const WORKFLOW_RISKS: { risk: string; mitigation: string; severity: 'high' | 'medium' | 'low' }[] = [
+  { risk: 'Data sources unreliable',       mitigation: 'HITL validates each source; fallback to known APIs only',    severity: 'high'   },
+  { risk: 'API access policy changes',    mitigation: 'Monitor terms; maintain fallback sources; document dependency', severity: 'medium' },
+  { risk: 'Classification bias',          mitigation: 'Spot-check AI output; taxonomy reviewed quarterly',           severity: 'medium' },
+  { risk: 'Demand ≠ actual hiring',       mitigation: 'Label results as posting volume; add trend context',         severity: 'low'    },
+];
+
+// Mock example: IM student targeting Germany + Netherlands
+const MOCK_STUDENT = {
+  name: 'Maruxa',
+  degree: 'MSc International Management',
+  graduationYear: '2026',
+  targetCountries: ['Germany', 'Netherlands'],
+  targetRoles: ['Product Manager', 'Business Analyst', 'Strategy Consultant'],
+};
+
+const MOCK_OUTPUT = [
+  { rank: 1, role: 'Product Manager',      country: 'Germany',     demand: 'Very High', trend: '↑ Rising', sources: 847 },
+  { rank: 2, role: 'Strategy Consultant',  country: 'Germany',     demand: 'High',      trend: '↑ Rising', sources: 612 },
+  { rank: 3, role: 'Business Analyst',    country: 'Netherlands', demand: 'High',      trend: '→ Stable', sources: 534 },
+  { rank: 4, role: 'Product Manager',      country: 'Netherlands', demand: 'Medium',    trend: '↑ Rising', sources: 421 },
+  { rank: 5, role: 'Strategy Consultant',  country: 'Netherlands', demand: 'Medium',    trend: '→ Stable', sources: 398 },
+];
+
+function WorkflowStep({ step, label, detail, badge, icon }: {
+  step: string; label: string; detail: string; badge: string; icon: string;
+}) {
+  const b = WORKFLOW_BADGES[badge];
+  return (
+    <div className="flex flex-col items-center text-center gap-1">
+      <div className="relative">
+        <div className="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xl">
+          {icon}
+        </div>
+        <div className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-navy border border-slate-600 flex items-center justify-center text-[10px] font-mono font-bold text-sky-300">
+          {step}
+        </div>
+      </div>
+      <span className={`px-2 py-0.5 rounded-full text-[10px] border font-medium ${b.bg} ${b.text}`}>{b.label}</span>
+      <p className="text-sm font-semibold text-slate-200 leading-tight">{label}</p>
+      <p className="text-xs text-slate-500 max-w-[110px]">{detail}</p>
+    </div>
+  );
+}
+
+function DemandBadge({ level }: { level: string }) {
+  const map: Record<string, string> = {
+    'Very High': 'bg-red-500/15 text-red-300 border border-red-500/30',
+    'High':      'bg-amber-500/15 text-amber-300 border border-amber-500/30',
+    'Medium':    'bg-sky-500/15 text-sky-300 border border-sky-500/30',
+  };
+  return <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-medium ${map[level] || ''}`}>{level}</span>;
+}
+
+function RiskRow({ risk, mitigation, severity }: { risk: string; mitigation: string; severity: 'high' | 'medium' | 'low' }) {
+  const dot: Record<string, string> = { high: 'bg-red-400', medium: 'bg-amber-400', low: 'bg-emerald-400' };
+  return (
+    <div className="flex items-start gap-3 py-2 border-b border-slate-800 last:border-0">
+      <span className={`inline-block w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${dot[severity]}`} />
+      <div>
+        <p className="text-sm font-medium text-slate-200">{risk}</p>
+        <p className="text-xs text-slate-500 mt-0.5">{mitigation}</p>
+      </div>
+    </div>
+  );
+}
+
 const NEXT_STEPS = [
   'Build the interactive prototype (job demand dashboard)',
   'Conduct user interviews with fellow IM students',
@@ -146,7 +258,7 @@ export default function LandingPage() {
             <span className="text-xs text-slate-500 hidden sm:inline">AI Job Demand Tracker</span>
           </div>
           <div className="flex items-center gap-3">
-            <Badge label="Day 1 · Concept" color="sky" />
+            <Badge label="Day 2 · Workflow & HITL" color="sky" />
             <Badge label="AI Native Enterprise" color="indigo" />
           </div>
         </div>
@@ -279,6 +391,181 @@ export default function LandingPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── WORKFLOW & HITL ─────────────────────────────────────────── */}
+      <section className="max-w-5xl mx-auto px-4 py-12">
+        <SectionLabel label="Day 2 — Workflow & Human-in-the-Loop" />
+        <h2 className="text-2xl font-bold text-slate-200 mt-4 mb-2">
+          How the AI System Works
+        </h2>
+        <p className="text-slate-400 text-sm mb-8 max-w-2xl">
+          A student inputs their profile, AI researches and ranks global job demand, a human reviewer approves the output, and the student receives a personalised prioritised dashboard.
+        </p>
+
+        {/* ── FLOW DIAGRAM ── */}
+        <div className="mb-10">
+          <div className="flex items-center justify-between gap-2 overflow-x-auto pb-2">
+            {WORKFLOW_STEPS.map((s, i) => (
+              <div key={s.step} className="flex items-center gap-2">
+                <WorkflowStep {...s} />
+                {i < WORKFLOW_STEPS.length - 1 && (
+                  <span className="text-slate-600 text-lg flex-shrink-0">→</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── DATA NEEDED + AI ROLE (2-col) ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+          <div className="bg-slate-800/40 rounded-2xl p-5 border border-slate-700">
+            <h3 className="text-base font-semibold text-slate-200 mb-4 flex items-center gap-2">
+              📥 Data Needed
+            </h3>
+            <div className="space-y-3">
+              {DATA_NEEDED.map(d => (
+                <div key={d.item} className="flex items-start gap-3">
+                  <span className="text-lg mt-0.5">{d.icon}</span>
+                  <div>
+                    <p className="text-sm font-medium text-slate-200">{d.item}</p>
+                    <p className="text-xs text-slate-500">{d.detail}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="bg-slate-800/40 rounded-2xl p-5 border border-slate-700">
+            <h3 className="text-base font-semibold text-slate-200 mb-4 flex items-center gap-2">
+              🤖 AI / Model Role
+            </h3>
+            <div className="space-y-3">
+              {AI_ACTIONS.map(a => (
+                <div key={a.action} className="flex items-start gap-3">
+                  <span className="text-lg mt-0.5">{a.icon}</span>
+                  <div>
+                    <p className="text-sm font-medium text-slate-200">{a.action}</p>
+                    <p className="text-xs text-slate-500">{a.detail}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ── HITL + MONITORING (2-col) ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+          <div className="bg-emerald-500/5 rounded-2xl p-5 border border-emerald-500/20">
+            <h3 className="text-base font-semibold text-emerald-300 mb-4 flex items-center gap-2">
+              ✅ Human-in-the-Loop Checkpoint
+            </h3>
+            <div className="space-y-2">
+              {HITL_CHECKPOINTS.map(c => (
+                <div key={c.text} className="flex items-center gap-2">
+                  <span className="text-emerald-400 text-sm">{c.icon}</span>
+                  <p className="text-sm text-slate-300">{c.text}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+              <p className="text-xs text-emerald-300">
+                <strong>Decision triggered:</strong> Student chooses which roles to prioritise based on AI-generated demand ranking.
+              </p>
+            </div>
+          </div>
+          <div className="bg-amber-500/5 rounded-2xl p-5 border border-amber-500/20">
+            <h3 className="text-base font-semibold text-amber-300 mb-4 flex items-center gap-2">
+              🔔 Human-on-the-Loop Monitoring
+            </h3>
+            <div className="space-y-2">
+              {MONITORING.map(m => (
+                <div key={m.alert} className="flex items-start gap-3">
+                  <span className="text-lg">{m.icon}</span>
+                  <div>
+                    <p className="text-sm font-medium text-slate-200">{m.alert}</p>
+                    <p className="text-xs text-slate-500">{m.detail}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
+              <p className="text-xs text-amber-300">
+                <strong>Human-out-of-the-loop:</strong> Classification and ranking can run fully automated once data sources are validated.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* ── MOCK EXAMPLE ── */}
+        <div className="bg-slate-800/40 rounded-2xl p-6 border border-slate-700 mb-10">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-base font-semibold text-slate-200">🧪 Mock Example — Day 2 Workflow</h3>
+            <span className="text-xs text-sky-400 bg-sky-500/10 px-2 py-1 rounded border border-sky-500/20">SIMULATED</span>
+          </div>
+          {/* Student profile */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4 p-3 bg-slate-900/60 rounded-lg border border-slate-700">
+            <div>
+              <p className="text-[10px] text-slate-500 uppercase">Student</p>
+              <p className="text-sm text-slate-200 font-medium">{MOCK_STUDENT.name}</p>
+            </div>
+            <div>
+              <p className="text-[10px] text-slate-500 uppercase">Degree</p>
+              <p className="text-sm text-slate-200 font-medium">{MOCK_STUDENT.degree}</p>
+            </div>
+            <div>
+              <p className="text-[10px] text-slate-500 uppercase">Target Countries</p>
+              <p className="text-sm text-slate-200 font-medium">{MOCK_STUDENT.targetCountries.join(', ')}</p>
+            </div>
+            <div>
+              <p className="text-[10px] text-slate-500 uppercase">Graduation</p>
+              <p className="text-sm text-slate-200 font-medium">{MOCK_STUDENT.graduationYear}</p>
+            </div>
+          </div>
+          {/* AI output table */}
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-slate-700 text-left">
+                  <th className="pb-2 text-xs text-slate-500 font-medium">#</th>
+                  <th className="pb-2 text-xs text-slate-500 font-medium">Role</th>
+                  <th className="pb-2 text-xs text-slate-500 font-medium">Country</th>
+                  <th className="pb-2 text-xs text-slate-500 font-medium">Demand</th>
+                  <th className="pb-2 text-xs text-slate-500 font-medium">Trend</th>
+                  <th className="pb-2 text-xs text-slate-500 font-medium">Sources</th>
+                  <th className="pb-2 text-xs text-slate-500 font-medium">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {MOCK_OUTPUT.map(row => (
+                  <tr key={row.rank} className="border-b border-slate-800">
+                    <td className="py-2 text-slate-400 font-mono">{row.rank}</td>
+                    <td className="py-2 text-slate-200 font-medium">{row.role}</td>
+                    <td className="py-2 text-slate-300">{row.country}</td>
+                    <td className="py-2"><DemandBadge level={row.demand} /></td>
+                    <td className="py-2 text-slate-300 text-xs">{row.trend}</td>
+                    <td className="py-2 text-slate-400 font-mono text-xs">{row.sources}</td>
+                    <td className="py-2">
+                      <span className="inline-block px-2 py-0.5 rounded text-[10px] bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                        ✅ Reviewed
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs text-slate-500 mt-3">
+            Maruxa receives this dashboard after human reviewer approves output. She prioritises Product Manager roles in Germany first.
+          </p>
+        </div>
+
+        {/* ── RISKS & MITIGATIONS ── */}
+        <div className="bg-red-500/5 rounded-2xl p-6 border border-red-500/20">
+          <h3 className="text-base font-semibold text-slate-200 mb-4">⚠ Workflow Risks & Mitigations</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {WORKFLOW_RISKS.map(r => <RiskRow key={r.risk} {...r} />)}
           </div>
         </div>
       </section>
