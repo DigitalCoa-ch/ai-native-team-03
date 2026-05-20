@@ -1,8 +1,202 @@
+'use client';
+
 // OG GBS — AI Job Demand Tracker
 // Landing page for AI Native Enterprise course project
 
+import { useState } from 'react';
+import {
+  ComposableMap,
+  Geographies,
+  Geography,
+  ZoomableGroup,
+} from 'react-simple-maps';
+
+const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
+
+// ─── MOCK DATA ───────────────────────────────────────────────────────
+
+const COUNTRY_JOBS: Record<string, { jobs: { title: string; industry: string; demand: 'High' | 'Medium'; reason: string }[]; flag: string }> = {
+  Germany: {
+    flag: '🇩🇪',
+    jobs: [
+      { title: 'Data Analyst',        industry: 'Technology',    demand: 'High',   reason: 'High demand due to digital transformation across mid-size German firms' },
+      { title: 'Software Engineer',   industry: 'Technology',    demand: 'High',   reason: 'Shortage of tech talent in Berlin and Munich startup ecosystem' },
+      { title: 'Supply Chain Manager',industry: 'Logistics',     demand: 'Medium', reason: 'Post-COVID reshoring drives demand for supply chain professionals' },
+      { title: 'Marketing Manager',   industry: 'Marketing',     demand: 'Medium', reason: 'German mid-market firms expanding digital marketing budgets' },
+      { title: 'Financial Analyst',   industry: 'Finance',       demand: 'Medium', reason: 'Frankfurt financial hub sees consistent demand for junior analysts' },
+    ],
+  },
+  'Netherlands': {
+    flag: '🇳🇱',
+    jobs: [
+      { title: 'Business Analyst',      industry: 'Consulting',  demand: 'High',   reason: 'Rotterdam consulting firms actively hiring for EU expansion projects' },
+      { title: 'Logistics Coordinator',  industry: 'Logistics',    demand: 'High',   reason: 'Amsterdam logistics hub drives demand for international coordinators' },
+      { title: 'International Sales Mgr',industry: 'Sales',       demand: 'Medium', reason: 'Dutch exporters seeking bilingual sales talent for EU markets' },
+      { title: 'UX Designer',            industry: 'Design',      demand: 'Medium', reason: 'Growing Amsterdam tech scene creates demand for UX talent' },
+      { title: 'Project Manager',        industry: 'Management',  demand: 'Medium', reason: 'PM demand rises as Dutch firms adopt hybrid project structures' },
+    ],
+  },
+  'United Kingdom': {
+    flag: '🇬🇧',
+    jobs: [
+      { title: 'Management Consultant',   industry: 'Consulting',  demand: 'High',   reason: 'London consulting market rebounds with post-pandemic strategy projects' },
+      { title: 'Financial Analyst',       industry: 'Finance',      demand: 'High',   reason: 'City of London sees renewed demand for junior analysts in 2026' },
+      { title: 'Digital Marketing Spec',  industry: 'Marketing',    demand: 'Medium', reason: 'UK retailers investing heavily in digital customer acquisition' },
+      { title: 'HR Business Partner',     industry: 'HR',            demand: 'Medium', reason: 'Hybrid work models drive demand for strategic HR roles' },
+      { title: 'Product Manager',         industry: 'Product',       demand: 'Medium', reason: 'FinTech and SaaS sectors in London actively hiring PMs' },
+    ],
+  },
+  France: {
+    flag: '🇫🇷',
+    jobs: [
+      { title: 'Strategy Consultant', industry: 'Consulting', demand: 'High',   reason: 'Paris consulting firms lead EU strategy mandates post-pandemic' },
+      { title: 'Brand Manager',        industry: 'Marketing',   demand: 'High',   reason: 'Luxury and FMCG sectors invest in brand management talent' },
+      { title: 'Operations Manager',  industry: 'Operations',  demand: 'Medium', reason: 'Lyon and Toulouse industrial sectors need ops professionals' },
+      { title: 'Data Scientist',      industry: 'Data',        demand: 'Medium', reason: 'French tech hub in Paris drives data science demand across sectors' },
+      { title: 'Account Manager',     industry: 'Sales',       demand: 'Medium', reason: 'B2B sales growth in France increases account management roles' },
+    ],
+  },
+  'United States': {
+    flag: '🇺🇸',
+    jobs: [
+      { title: 'Software Engineer',        industry: 'Technology',  demand: 'High',   reason: 'US tech sector leads globally with continued hiring across coastal hubs' },
+      { title: 'Product Manager',          industry: 'Product',     demand: 'High',   reason: 'SaaS and FinTech companies across the US actively seek PM talent' },
+      { title: 'Data Scientist',           industry: 'Data',        demand: 'High',   reason: 'AI adoption drives US-wide demand for data science professionals' },
+      { title: 'Business Dev Manager',     industry: 'Sales',       demand: 'Medium', reason: 'US B2B market expansion drives BD hiring across all sectors' },
+      { title: 'Financial Analyst',        industry: 'Finance',     demand: 'Medium', reason: 'NYC and Chicago financial firms maintain steady analyst demand' },
+    ],
+  },
+  Spain: {
+    flag: '🇪🇸',
+    jobs: [
+      { title: 'Digital Marketing Manager', industry: 'Marketing', demand: 'High',   reason: 'Spanish SME digital adoption post-COVID drives marketing talent demand' },
+      { title: 'Tourism Ops Manager',       industry: 'Tourism',   demand: 'High',   reason: 'Barcelona and Balearic Islands tourism recovery drives ops demand' },
+      { title: 'Sales Representative',     industry: 'Sales',      demand: 'Medium', reason: 'Spanish export growth fuels bilingual sales talent need' },
+      { title: 'Business Analyst',         industry: 'Consulting', demand: 'Medium', reason: 'Madrid financial sector expands BA hiring for project delivery' },
+      { title: 'HR Coordinator',           industry: 'HR',          demand: 'Medium', reason: 'SME growth in Spain drives demand for HR generalists' },
+    ],
+  },
+};
+
+// ISO numeric codes for supported countries
+const SUPPORTED_COUNTRIES = new Set([
+  '276', // Germany
+  '528', // Netherlands
+  '826', // United Kingdom
+  '250', // France
+  '840', // United States
+  '724', // Spain
+]);
+
+// ─── MAP COMPONENT ──────────────────────────────────────────────────
+
+interface WorldMapProps {
+  onCountrySelect: (country: string | null) => void;
+  selectedCountry: string | null;
+}
+
+function WorldMap({ onCountrySelect, selectedCountry }: WorldMapProps) {
+  return (
+    <ComposableMap
+      projection="geoMercator"
+      projectionConfig={{ scale: 130, center: [10, 30] }}
+      style={{ width: '100%', height: 'auto' }}
+    >
+      <ZoomableGroup zoom={1}>
+        <Geographies geography={GEO_URL}>
+          {({ geographies }: { geographies: { rsmKey: string; properties: { name: string; id: string } }[] }) =>
+            geographies.map((geo) => {
+              const numericId = geo.properties.id;
+              const name = geo.properties.name;
+              const isSupported = SUPPORTED_COUNTRIES.has(numericId);
+              const isSelected = name === selectedCountry;
+              return (
+                <Geography
+                  key={geo.rsmKey}
+                  geography={geo}
+                  onClick={() => {
+                    if (isSupported) {
+                      onCountrySelect(isSelected ? null : name);
+                    }
+                  }}
+                  style={{
+                    default: {
+                      fill: isSupported ? (isSelected ? '#38bdf8' : '#1e4d6b') : '#1e293b',
+                      stroke: '#0f172a',
+                      strokeWidth: 0.5,
+                      outline: 'none',
+                      cursor: isSupported ? 'pointer' : 'default',
+                      opacity: isSupported ? 1 : 0.4,
+                    },
+                    hover: {
+                      fill: isSupported ? '#7dd3fc' : '#1e293b',
+                      stroke: '#0f172a',
+                      strokeWidth: 0.5,
+                      outline: 'none',
+                      cursor: isSupported ? 'pointer' : 'default',
+                    },
+                    pressed: {
+                      fill: isSupported ? '#38bdf8' : '#1e293b',
+                      stroke: '#0f172a',
+                      strokeWidth: 0.5,
+                      outline: 'none',
+                    },
+                  }}
+                />
+              );
+            })
+          }
+        </Geographies>
+      </ZoomableGroup>
+    </ComposableMap>
+  );
+}
+
+// ─── COUNTRY PANEL COMPONENT ────────────────────────────────────────
+
+function CountryJobPanel({ country }: { country: string }) {
+  const data = COUNTRY_JOBS[country];
+  if (!data) return null;
+
+  return (
+    <div className="bg-slate-800/40 rounded-2xl border border-slate-700 p-5">
+      <div className="flex items-center gap-2 mb-4">
+        <span className="text-2xl">{data.flag}</span>
+        <h3 className="text-lg font-bold text-slate-200">{country}</h3>
+      </div>
+      <p className="text-xs text-sky-400 mb-4 uppercase tracking-wider">Top Roles for Post-Grad Students</p>
+      <div className="space-y-3">
+        {data.jobs.map((job) => (
+          <div key={job.title} className="bg-slate-900/60 rounded-xl p-3 border border-slate-700">
+            <div className="flex items-start justify-between gap-2 mb-1">
+              <p className="text-sm font-semibold text-slate-200 leading-tight">{job.title}</p>
+              <span className={`flex-shrink-0 inline-block px-2 py-0.5 rounded-full text-[10px] font-medium border ${
+                job.demand === 'High'
+                  ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
+                  : 'bg-amber-500/15 text-amber-300 border-amber-500/30'
+              }`}>
+                {job.demand}
+              </span>
+            </div>
+            <p className="text-[10px] text-slate-500 mb-1">{job.industry}</p>
+            <p className="text-xs text-slate-400 leading-relaxed">{job.reason}</p>
+          </div>
+        ))}
+      </div>
+      <button
+        onClick={() => {/* handled by parent */}}
+        className="mt-4 w-full text-center text-xs text-slate-500 hover:text-slate-300 py-2 border border-slate-800 rounded-lg transition-colors"
+      >
+        Close panel
+      </button>
+    </div>
+  );
+}
+
+// ─── MAIN PAGE ───────────────────────────────────────────────────────
+
 const BADGES = [
-  { label: 'AI Native Enterprise · Day 2 · Workflow & HITL', color: 'sky' },
+  { label: 'AI Native Enterprise · Day 3 · Interactive Prototype', color: 'sky' },
   { label: 'International Management Track', color: 'indigo' },
 ];
 
@@ -247,6 +441,7 @@ function SeverityDot({ severity }: { severity: 'high' | 'medium' | 'low' }) {
 }
 
 export default function LandingPage() {
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   return (
     <div className="min-h-screen bg-navy text-slate-200">
 
@@ -258,7 +453,7 @@ export default function LandingPage() {
             <span className="text-xs text-slate-500 hidden sm:inline">AI Job Demand Tracker</span>
           </div>
           <div className="flex items-center gap-3">
-            <Badge label="Day 2 · Workflow & HITL" color="sky" />
+            <Badge label="Day 3 · Interactive Map" color="sky" />
             <Badge label="AI Native Enterprise" color="indigo" />
           </div>
         </div>
@@ -606,6 +801,48 @@ export default function LandingPage() {
               <div className="text-xs text-slate-500 mt-1">{member.role}</div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════
+          DAY 3 — INTERACTIVE PROTOTYPE
+          Explore Job Demand by Country
+      ════════════════════════════════════════════════════════════ */}
+
+      {/* ── EXPLORE JOB DEMAND ──────────────────────────────────── */}
+      <section className="max-w-5xl mx-auto px-4 py-12">
+        <SectionLabel label="Day 3 — Interactive Prototype" />
+        <div className="flex items-center justify-between mt-4 mb-2">
+          <div>
+            <h2 className="text-2xl font-bold text-slate-200">Explore Job Demand by Country</h2>
+            <p className="text-slate-400 text-sm mt-1">Click any highlighted country to see the most in-demand roles for post-graduate students.</p>
+          </div>
+          <span className="text-xs text-sky-400 bg-sky-500/10 px-2 py-1 rounded border border-sky-500/20">INTERACTIVE</span>
+        </div>
+
+        <div className="flex flex-col lg:flex-row gap-6 mt-6">
+
+          {/* ── MAP ── */}
+          <div className="flex-1">
+            <div className="bg-slate-800/40 rounded-2xl border border-slate-700 p-4 overflow-hidden">
+              <WorldMap onCountrySelect={setSelectedCountry} selectedCountry={selectedCountry} />
+            </div>
+          </div>
+
+          {/* ── COUNTRY PANEL ── */}
+          <div className="lg:w-80 flex-shrink-0">
+            {selectedCountry ? (
+              <CountryJobPanel country={selectedCountry} />
+            ) : (
+              <div className="bg-slate-800/40 rounded-2xl border border-slate-700 p-6 text-center h-full flex items-center justify-center min-h-[200px]">
+                <div>
+                  <div className="text-3xl mb-3">🌍</div>
+                  <p className="text-slate-400 text-sm">Click a highlighted country on the map to see in-demand jobs for post-grad students.</p>
+                </div>
+              </div>
+            )}
+          </div>
+
         </div>
       </section>
 
