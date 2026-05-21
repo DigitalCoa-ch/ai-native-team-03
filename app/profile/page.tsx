@@ -19,9 +19,14 @@ export default function ProfilePage() {
             <a href="/" className="text-xl font-bold gradient-text">OG GBS</a>
             <a href="/" className="text-xs text-slate-500 hover:text-slate-300 transition-colors hidden sm:inline">AI Job Demand Tracker</a>
           </div>
-          <a href="/profile" className="text-sm px-4 py-1.5 rounded-lg border border-sky-500/30 text-sky-400 hover:bg-sky-500/10 transition-colors bg-sky-500/10">
-            Create Your Profile
-          </a>
+          <div className="flex items-center gap-2">
+            <a href="/team" className="text-sm px-3 py-1.5 rounded-lg border border-sky-500/30 text-sky-400 hover:bg-sky-500/10 transition-colors">
+              Meet the Team
+            </a>
+            <a href="/profile" className="text-sm px-3 py-1.5 rounded-lg border border-sky-500/30 text-sky-400 hover:bg-sky-500/10 transition-colors bg-sky-500/10">
+              Create Your Profile
+            </a>
+          </div>
         </div>
       </nav>
 

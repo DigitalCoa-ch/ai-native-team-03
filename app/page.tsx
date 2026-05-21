@@ -552,12 +552,14 @@ export default function LandingPage() {
             <span className="text-xl font-bold gradient-text">OG GBS</span>
             <a href="/" className="text-xs text-slate-500 hover:text-slate-300 transition-colors hidden sm:inline">AI Job Demand Tracker</a>
           </div>
-          <a href="/team" className="text-sm px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition-colors">
-            Meet the Team
-          </a>
-          <a href="/profile" className="text-sm px-3 py-1.5 rounded-lg border border-sky-500/30 text-sky-400 hover:bg-sky-500/10 transition-colors">
-            Create Your Profile
-          </a>
+          <div className="flex items-center gap-2">
+            <a href="/team" className="text-sm px-3 py-1.5 rounded-lg border border-sky-500/30 text-sky-400 hover:bg-sky-500/10 transition-colors">
+              Meet the Team
+            </a>
+            <a href="/profile" className="text-sm px-3 py-1.5 rounded-lg border border-sky-500/30 text-sky-400 hover:bg-sky-500/10 transition-colors">
+              Create Your Profile
+            </a>
+          </div>
         </div>
       </nav>
 
@@ -701,22 +703,6 @@ export default function LandingPage() {
               ))}
             </div>
           </div>
-          <div className="bg-slate-800/40 rounded-2xl p-5 border border-slate-700">
-            <h3 className="text-base font-semibold text-slate-200 mb-4 flex items-center gap-2">
-              🤖 AI / Model Role
-            </h3>
-            <div className="space-y-3">
-              {AI_ACTIONS.map(a => (
-                <div key={a.action} className="flex items-start gap-3">
-                  <span className="text-lg mt-0.5">{a.icon}</span>
-                  <div>
-                    <p className="text-sm font-medium text-slate-200">{a.action}</p>
-                    <p className="text-xs text-slate-500">{a.detail}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* ── HITL + MONITORING (2-col) ── */}
@@ -831,21 +817,6 @@ export default function LandingPage() {
           </div>
       </section>
 
-      {/* ── TEAM ── */}
-      <section className="max-w-5xl mx-auto px-4 py-12">
-        <SectionLabel label="The Team" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          {TEAM.map(member => (
-            <div key={member.name} className="bg-slate-800/40 rounded-2xl p-5 border border-slate-700 text-center card-glow">
-              <div className="w-12 h-12 rounded-full bg-sky-500/20 border border-sky-400/30 mx-auto mb-3 flex items-center justify-center text-sky-300 font-bold">
-                {member.name[0]}
-              </div>
-              <div className="text-lg font-semibold text-slate-200">{member.name}</div>
-              <div className="text-xs text-slate-500 mt-1">{member.role}</div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* ── FOOTER ─────────────────────────────────────────────── */}
       <footer className="border-t border-slate-800 text-center text-slate-600 text-xs pb-8 pt-6">
