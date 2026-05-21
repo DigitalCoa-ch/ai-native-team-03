@@ -552,7 +552,10 @@ export default function LandingPage() {
             <span className="text-xl font-bold gradient-text">OG GBS</span>
             <a href="/" className="text-xs text-slate-500 hover:text-slate-300 transition-colors hidden sm:inline">AI Job Demand Tracker</a>
           </div>
-          <a href="/profile" className="text-sm px-4 py-1.5 rounded-lg border border-sky-500/30 text-sky-400 hover:bg-sky-500/10 transition-colors">
+          <a href="/team" className="text-sm px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition-colors">
+            Meet the Team
+          </a>
+          <a href="/profile" className="text-sm px-3 py-1.5 rounded-lg border border-sky-500/30 text-sky-400 hover:bg-sky-500/10 transition-colors">
             Create Your Profile
           </a>
         </div>
