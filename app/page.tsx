@@ -547,9 +547,14 @@ export default function LandingPage() {
 
       {/* ── NAVBAR ─────────────────────────────────────────────── */}
       <nav className="sticky top-0 z-50 bg-navy/90 backdrop-blur-md border-b border-slate-800">
-        <div className="max-w-5xl mx-auto px-4 py-3">
-          <span className="text-xl font-bold gradient-text">OG GBS</span>
-          <span className="ml-3 text-xs text-slate-500 hidden sm:inline">AI Job Demand Tracker</span>
+        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <span className="text-xl font-bold gradient-text">OG GBS</span>
+            <a href="/" className="text-xs text-slate-500 hover:text-slate-300 transition-colors hidden sm:inline">AI Job Demand Tracker</a>
+          </div>
+          <a href="/profile" className="text-sm px-4 py-1.5 rounded-lg border border-sky-500/30 text-sky-400 hover:bg-sky-500/10 transition-colors">
+            Create Your Profile
+          </a>
         </div>
       </nav>
 
