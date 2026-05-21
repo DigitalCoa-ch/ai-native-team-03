@@ -555,15 +555,9 @@ export default function LandingPage() {
 
       {/* ── NAVBAR ─────────────────────────────────────────────── */}
       <nav className="sticky top-0 z-50 bg-navy/90 backdrop-blur-md border-b border-slate-800">
-        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="text-xl font-bold gradient-text">OG GBS</span>
-            <span className="text-xs text-slate-500 hidden sm:inline">AI Job Demand Tracker</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Badge label="Day 3 · Interactive Map" color="sky" />
-            <Badge label="AI Native Enterprise" color="indigo" />
-          </div>
+        <div className="max-w-5xl mx-auto px-4 py-3">
+          <span className="text-xl font-bold gradient-text">OG GBS</span>
+          <span className="ml-3 text-xs text-slate-500 hidden sm:inline">AI Job Demand Tracker</span>
         </div>
       </nav>
 
@@ -584,6 +578,55 @@ export default function LandingPage() {
           <span>AI Native Enterprise Course</span>
         </div>
       </header>
+
+      {/* ════════════════════════════════════════════════════════════
+          DAY 3 — INTERACTIVE PROTOTYPE (moved up here, after hero)
+      ════════════════════════════════════════════════════════════ */}
+
+      {/* ── EXPLORE JOB DEMAND ──────────────────────────────────── */}
+      <section className="max-w-5xl mx-auto px-4 py-12">
+        <SectionLabel label="Day 3 — Interactive Prototype" />
+        <div className="flex items-center justify-between mt-4 mb-2">
+          <div>
+            <h2 className="text-2xl font-bold text-slate-200">Explore Job Demand by Country</h2>
+            <p className="text-slate-400 text-sm mt-1">Click any highlighted country to see the most in-demand roles for post-graduate students.</p>
+          </div>
+          <span className="text-xs text-sky-400 bg-sky-500/10 px-2 py-1 rounded border border-sky-500/20">INTERACTIVE</span>
+        </div>
+
+        <div className="flex flex-col lg:flex-row gap-6 mt-6">
+
+          {/* ── MAP ── */}
+          <div className="flex-1">
+            <div className="bg-slate-800/40 rounded-2xl border border-slate-700 p-4 overflow-hidden">
+              <WorldMap
+                onCountrySelect={setSelectedCountry}
+                selectedCountry={selectedCountry}
+                zoom={mapZoom}
+                onZoomChange={setMapZoom}
+              />
+            </div>
+          </div>
+
+          {/* ── COUNTRY PANEL ── */}
+          <div className="lg:w-80 flex-shrink-0">
+            {selectedCountry ? (
+              <CountryJobPanel
+                country={selectedCountry}
+                onClose={() => setSelectedCountry(null)}
+              />
+            ) : (
+              <div className="bg-slate-800/40 rounded-2xl border border-slate-700 p-6 text-center h-full flex items-center justify-center min-h-[200px]">
+                <div>
+                  <div className="text-3xl mb-3">🌍</div>
+                  <p className="text-slate-400 text-sm">Click a highlighted country on the map to see in-demand jobs for post-grad students.</p>
+                </div>
+              </div>
+            )}
+          </div>
+
+        </div>
+      </section>
 
       {/* ── PROBLEM / AUDIENCE / PAIN (3-column cards) ─────────── */}
       <section className="max-w-5xl mx-auto px-4 pb-12">
@@ -909,56 +952,6 @@ export default function LandingPage() {
               <div className="text-xs text-slate-500 mt-1">{member.role}</div>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════════════════════
-          DAY 3 — INTERACTIVE PROTOTYPE
-          Explore Job Demand by Country
-      ════════════════════════════════════════════════════════════ */}
-
-      {/* ── EXPLORE JOB DEMAND ──────────────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-4 py-12">
-        <SectionLabel label="Day 3 — Interactive Prototype" />
-        <div className="flex items-center justify-between mt-4 mb-2">
-          <div>
-            <h2 className="text-2xl font-bold text-slate-200">Explore Job Demand by Country</h2>
-            <p className="text-slate-400 text-sm mt-1">Click any highlighted country to see the most in-demand roles for post-graduate students.</p>
-          </div>
-          <span className="text-xs text-sky-400 bg-sky-500/10 px-2 py-1 rounded border border-sky-500/20">INTERACTIVE</span>
-        </div>
-
-        <div className="flex flex-col lg:flex-row gap-6 mt-6">
-
-          {/* ── MAP ── */}
-          <div className="flex-1">
-            <div className="bg-slate-800/40 rounded-2xl border border-slate-700 p-4 overflow-hidden">
-              <WorldMap
-                onCountrySelect={setSelectedCountry}
-                selectedCountry={selectedCountry}
-                zoom={mapZoom}
-                onZoomChange={setMapZoom}
-              />
-            </div>
-          </div>
-
-          {/* ── COUNTRY PANEL ── */}
-          <div className="lg:w-80 flex-shrink-0">
-            {selectedCountry ? (
-              <CountryJobPanel
-                country={selectedCountry}
-                onClose={() => setSelectedCountry(null)}
-              />
-            ) : (
-              <div className="bg-slate-800/40 rounded-2xl border border-slate-700 p-6 text-center h-full flex items-center justify-center min-h-[200px]">
-                <div>
-                  <div className="text-3xl mb-3">🌍</div>
-                  <p className="text-slate-400 text-sm">Click a highlighted country on the map to see in-demand jobs for post-grad students.</p>
-                </div>
-              </div>
-            )}
-          </div>
-
         </div>
       </section>
 
