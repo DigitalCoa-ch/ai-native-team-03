@@ -579,7 +579,7 @@ export default function LandingPage() {
 
         <div className="flex items-center justify-between mt-4 mb-2">
           <div>
-            <h2 className="text-2xl font-bold text-slate-200">Who is OG GBS?</h2>
+            <h2 className="text-2xl font-bold text-slate-200">Find the most demanded jobs in your country of choice</h2>
             <p className="text-slate-400 text-sm mt-1">Click any highlighted country to see the most in-demand roles for post-graduate students.</p>
           </div>
           <span className="text-xs text-sky-400 bg-sky-500/10 px-2 py-1 rounded border border-sky-500/20">INTERACTIVE</span>
@@ -621,7 +621,7 @@ export default function LandingPage() {
 
       {/* ── PROBLEM / AUDIENCE / PAIN (3-column cards) ─────────── */}
       <section className="max-w-5xl mx-auto px-4 pb-12">
-        <SectionLabel label="The Concept" />
+        <SectionLabel label="Who is OG GBS?" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
           <Card emoji={PROBLEM.emoji} title={PROBLEM.title} body={PROBLEM.body} />
           <Card emoji={AUDIENCE.emoji} title={AUDIENCE.title} body={AUDIENCE.body} />
@@ -632,7 +632,7 @@ export default function LandingPage() {
       {/* ── SOLUTION ───────────────────────────────────────────── */}
       <section className="bg-slate-800/40 border-y border-slate-800">
         <div className="max-w-5xl mx-auto px-4 py-12">
-          <SectionLabel label="AI-Native Solution" />
+          <SectionLabel label="" />
           <div className="flex items-start gap-4 mt-4">
             <span className="text-3xl mt-1">{SOLUTION.emoji}</span>
             <div>
@@ -757,7 +757,7 @@ export default function LandingPage() {
         {/* ── MOCK EXAMPLE ── */}
         <div className="bg-slate-800/40 rounded-2xl p-6 border border-slate-700 mb-10">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-base font-semibold text-slate-200">🧪 Mock Example — Day 2 Workflow</h3>
+            <h3 className="text-base font-semibold text-slate-200">🧪 Mock Example — Workflow</h3>
             <span className="text-xs text-sky-400 bg-sky-500/10 px-2 py-1 rounded border border-sky-500/20">SIMULATED</span>
           </div>
           {/* Student profile */}
