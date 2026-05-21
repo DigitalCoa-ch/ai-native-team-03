@@ -430,12 +430,7 @@ const MONITORING = [
   { icon: '🏷️', alert: 'Class. Drift',   detail: 'Triggers when role taxonomy accuracy degrades' },
 ];
 
-const WORKFLOW_RISKS: { risk: string; mitigation: string; severity: 'high' | 'medium' | 'low' }[] = [
-  { risk: 'Data sources unreliable',       mitigation: 'HITL validates each source; fallback to known APIs only',    severity: 'high'   },
-  { risk: 'API access policy changes',    mitigation: 'Monitor terms; maintain fallback sources; document dependency', severity: 'medium' },
-  { risk: 'Classification bias',          mitigation: 'Spot-check AI output; taxonomy reviewed quarterly',           severity: 'medium' },
-  { risk: 'Demand ≠ actual hiring',       mitigation: 'Label results as posting volume; add trend context',         severity: 'low'    },
-];
+const WORKFLOW_RISKS: { risk: string; mitigation: string; severity: 'high' | 'medium' | 'low' }[] = [];
 
 // Mock example: IM student targeting Germany + Netherlands
 const MOCK_STUDENT = {
@@ -658,7 +653,7 @@ export default function LandingPage() {
 
       {/* ── WORKFLOW & HITL ─────────────────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-4 py-12">
-        <SectionLabel label="Day 2 — Workflow & Human-in-the-Loop" />
+        <SectionLabel label="" />
         <h2 className="text-2xl font-bold text-slate-200 mt-4 mb-2">
           How the AI System Works
         </h2>
