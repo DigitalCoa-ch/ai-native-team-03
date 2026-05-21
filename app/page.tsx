@@ -302,10 +302,7 @@ function CountryJobPanel({ country, onClose }: CountryJobPanelProps) {
 
 // ─── MAIN PAGE ───────────────────────────────────────────────────────
 
-const BADGES = [
-  { label: 'AI Native Enterprise · Day 3 · Interactive Prototype', color: 'sky' },
-  { label: 'International Management Track', color: 'indigo' },
-];
+const BADGES: { label: string; color: string }[] = [];
 
 const PROBLEM = {
   emoji: '😩',
@@ -575,7 +572,6 @@ export default function LandingPage() {
         <div className="flex gap-3 justify-center flex-wrap text-sm text-slate-500">
           <span>Team: Daria · Maruxa · Sofya</span>
           <span className="text-slate-700">·</span>
-          <span>AI Native Enterprise Course</span>
         </div>
       </header>
 
@@ -585,10 +581,10 @@ export default function LandingPage() {
 
       {/* ── EXPLORE JOB DEMAND ──────────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-4 py-12">
-        <SectionLabel label="Day 3 — Interactive Prototype" />
+
         <div className="flex items-center justify-between mt-4 mb-2">
           <div>
-            <h2 className="text-2xl font-bold text-slate-200">Explore Job Demand by Country</h2>
+            <h2 className="text-2xl font-bold text-slate-200">Who is OG GBS?</h2>
             <p className="text-slate-400 text-sm mt-1">Click any highlighted country to see the most in-demand roles for post-graduate students.</p>
           </div>
           <span className="text-xs text-sky-400 bg-sky-500/10 px-2 py-1 rounded border border-sky-500/20">INTERACTIVE</span>
@@ -657,89 +653,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── WHY AI MATTERS ──────────────────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-4 py-12">
-        <SectionLabel label="Why AI is Essential" />
-        <h2 className="text-2xl font-bold text-slate-200 mt-4 mb-6">Three reasons AI cannot be removed</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {WHY_AI.map(item => (
-            <div key={item.title} className="bg-slate-800/40 rounded-2xl p-6 border border-slate-700 text-center card-glow">
-              <div className="text-3xl mb-3">{item.icon}</div>
-              <h3 className="text-lg font-semibold text-slate-200 mb-2">{item.title}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">{item.detail}</p>
-            </div>
-          ))}
-        </div>
-      </section>
 
-      {/* ── OXYGEN TEST ─────────────────────────────────────────── */}
-      <section className="bg-slate-800/40 border-y border-slate-800">
-        <div className="max-w-5xl mx-auto px-4 py-12">
-          <SectionLabel label="Oxygen Test" />
-          <div className="mt-4 bg-red-500/5 border border-red-500/20 rounded-2xl p-6">
-            <div className="flex items-start gap-4 mb-4">
-              <span className="text-3xl">{OXYGEN.emoji}</span>
-              <div>
-                <h2 className="text-2xl font-bold text-slate-200 mb-1">{OXYGEN.title}</h2>
-                <p className="text-slate-400 text-sm">{OXYGEN.subtitle}</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="md:col-span-1 bg-slate-800/60 rounded-xl p-4 border border-slate-700">
-                <div className="text-xs text-slate-500 uppercase tracking-wider mb-1">Result without AI</div>
-                <div className="text-lg font-bold text-red-300">{OXYGEN.result}</div>
-              </div>
-              <div className="md:col-span-2 bg-slate-800/60 rounded-xl p-4 border border-slate-700">
-                <div className="text-xs text-slate-500 uppercase tracking-wider mb-2">What breaks</div>
-                <p className="text-sm text-slate-300 leading-relaxed">{OXYGEN.detail}</p>
-              </div>
-            </div>
-            <div className="mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20">
-              <p className="text-sm text-red-300 font-medium">✅ Verdict: {OXYGEN.verdict}</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ── PERCH EVIDENCE & RISKS ──────────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-4 py-12">
-        <SectionLabel label="Evidence & Risks (PERCH)" />
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Evidence column */}
-          <div className="bg-slate-800/40 rounded-2xl p-6 border border-slate-700">
-            <h3 className="text-lg font-semibold text-slate-200 mb-4">📊 Evidence Base</h3>
-            <div className="space-y-3">
-              <div className="flex items-start gap-2">
-                <span className="text-emerald-400 text-sm mt-0.5">✓</span>
-                <p className="text-sm text-slate-400">Team experience as IM students approaching graduation — first-hand pain point observation.</p>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="text-amber-400 text-sm mt-0.5">⚠</span>
-                <p className="text-sm text-slate-400">No external market data cited yet. Evidence is currently assumption-driven.</p>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="text-slate-600 text-sm mt-0.5">○</span>
-                <p className="text-sm text-slate-500">LinkedIn's existing job aggregation partially addresses job discovery — our differentiator must be clearly defined.</p>
-              </div>
-            </div>
-          </div>
-          {/* Risks column */}
-          <div className="bg-slate-800/40 rounded-2xl p-6 border border-slate-700">
-            <h3 className="text-lg font-semibold text-slate-200 mb-4">⚠ Key Risks</h3>
-            <div className="space-y-4">
-              {PERCH_RISKS.map(r => (
-                <div key={r.risk} className="flex items-start gap-2">
-                  <SeverityDot severity={r.severity} />
-                  <div>
-                    <p className="text-sm font-medium text-slate-200">{r.risk}</p>
-                    <p className="text-xs text-slate-400 leading-relaxed mt-0.5">{r.detail}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ── WORKFLOW & HITL ─────────────────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-4 py-12">
@@ -908,38 +823,12 @@ export default function LandingPage() {
         </div>
 
         {/* ── RISKS & MITIGATIONS ── */}
-        <div className="bg-red-500/5 rounded-2xl p-6 border border-red-500/20">
-          <h3 className="text-base font-semibold text-slate-200 mb-4">⚠ Workflow Risks & Mitigations</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {WORKFLOW_RISKS.map(r => <RiskRow key={r.risk} {...r} />)}
           </div>
-        </div>
       </section>
 
-      {/* ── NEXT STEPS ───────────────────────────────────────────── */}
-      <section className="bg-slate-800/40 border-y border-slate-800">
-        <div className="max-w-5xl mx-auto px-4 py-12">
-          <SectionLabel label="What's Next" />
-          <h2 className="text-2xl font-bold text-slate-200 mt-4 mb-6">Interactive Prototype — coming Day 2</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            {NEXT_STEPS.map((step, i) => (
-              <div key={step} className="flex items-center gap-3 bg-slate-800/40 rounded-xl px-4 py-3 border border-slate-700">
-                <span className="flex-shrink-0 w-7 h-7 rounded-full bg-sky-500/20 border border-sky-400/30 text-sky-300 text-xs flex items-center justify-center font-mono font-bold">
-                  {i + 1}
-                </span>
-                <p className="text-sm text-slate-300">{step}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-6 p-4 rounded-xl bg-sky-500/10 border border-sky-400/20">
-            <p className="text-sm text-sky-300 text-center">
-              <strong>Note:</strong> This page explains the concept. The interactive prototype — an AI-powered job demand dashboard — will be built and improved next.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── TEAM ───────────────────────────────────────────────── */}
+      {/* ── TEAM ── */}
       <section className="max-w-5xl mx-auto px-4 py-12">
         <SectionLabel label="The Team" />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
